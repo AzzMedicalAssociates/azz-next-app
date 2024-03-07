@@ -198,7 +198,7 @@ const Screen2 = () => {
                               width={80}
                               height={80}
                               alt={"provider-pic"}
-                              className="rounded-full "
+                              className="rounded-full"
                               src={item.providerEntry.profile}
                             />
                           ) : (

@@ -179,52 +179,55 @@ const Screen3 = () => {
 
                   <div>
                     <section className="flex flex-col items-center justify-center gap-5 py-5">
-                      <div>
-                        <Select
-                          defaultValue={selectedLocation}
-                          components={{ DropdownIndicator: ModeIndicator }}
-                          className="shadow-lg hover:shadow-xl focus:shadow-xl"
-                          required
-                          onChange={(choice) => {
-                            handleLocation(choice);
-                          }}
-                          noOptionsMessage={() => "Not Found"}
-                          styles={{
-                            control: (baseStyles, state) => ({
-                              ...baseStyles,
-                              width: 350,
-                              height: 50,
-                              border: "2px solid #0D3276",
-                              "&:hover": {
+                      {locationOptions.length > 1 ? (
+                        <div>
+                          <Select
+                            defaultValue={selectedLocation}
+                            components={{ DropdownIndicator: ModeIndicator }}
+                            className="shadow-lg hover:shadow-xl focus:shadow-xl"
+                            required
+                            onChange={(choice) => {
+                              handleLocation(choice);
+                            }}
+                            noOptionsMessage={() => "Not Found"}
+                            styles={{
+                              control: (baseStyles, state) => ({
+                                ...baseStyles,
+                                width: 350,
+                                height: 50,
                                 border: "2px solid #0D3276",
-                                cursor: "pointer",
-                              },
-                            }),
-                            menuList: (baseStyles, state) => ({
-                              ...baseStyles,
-                              "&:hover": { cursor: "pointer" },
-                              maxHeight: "200px",
-                            }),
-                            dropdownIndicator: (baseStyles, state) => ({
-                              ...baseStyles,
-                              color: "#0D3276",
-                            }),
-                            option: (baseStyles, state) => ({
-                              ...baseStyles,
-                              backgroundColor: state.isSelected
-                                ? "rgba(13,50,118,1)"
-                                : "white",
-                              "&:hover": {
-                                backgroundColor: "rgba(13,50,118,1)",
-                                cursor: "pointer",
-                                color: "white",
-                              },
-                            }),
-                          }}
-                          options={locationOptions}
-                        />
-                      </div>
-
+                                "&:hover": {
+                                  border: "2px solid #0D3276",
+                                  cursor: "pointer",
+                                },
+                              }),
+                              menuList: (baseStyles, state) => ({
+                                ...baseStyles,
+                                "&:hover": { cursor: "pointer" },
+                                maxHeight: "200px",
+                              }),
+                              dropdownIndicator: (baseStyles, state) => ({
+                                ...baseStyles,
+                                color: "#0D3276",
+                              }),
+                              option: (baseStyles, state) => ({
+                                ...baseStyles,
+                                backgroundColor: state.isSelected
+                                  ? "rgba(13,50,118,1)"
+                                  : "white",
+                                "&:hover": {
+                                  backgroundColor: "rgba(13,50,118,1)",
+                                  cursor: "pointer",
+                                  color: "white",
+                                },
+                              }),
+                            }}
+                            options={locationOptions}
+                          />
+                        </div>
+                      ) : (
+                        <p>{locationOptions[0].label}</p>
+                      )}
                       <section className="flex flex-col items-center justify-center    max-sm:items-center max-sm:justify-center max-sm:mt-5 h-full xl:w-[500px] lg:w-[400px] md:w-[350px] max-sm:w-auto ">
                         {/******************* Slots section *START* *****************/}
 
