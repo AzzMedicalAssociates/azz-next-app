@@ -118,7 +118,7 @@ const Screen3 = () => {
                             width={100}
                             height={100}
                             alt={"provider-pic"}
-                            className="rounded-full  "
+                            className="rounded-full"
                             src={item.providerEntry.profile}
                           />
                         ) : (
@@ -181,6 +181,7 @@ const Screen3 = () => {
                     <section className="flex flex-col items-center justify-center gap-5 py-5">
                       {locationOptions.length > 1 ? (
                         <div>
+                          <div>Select the location:</div>
                           <Select
                             defaultValue={selectedLocation}
                             components={{ DropdownIndicator: ModeIndicator }}
@@ -226,7 +227,14 @@ const Screen3 = () => {
                           />
                         </div>
                       ) : (
-                        <p>{locationOptions[0].label}</p>
+                        <>
+                          <div>
+                            Location:{" "}
+                            <span className=" font-medium">
+                              {locationOptions[0].label}
+                            </span>
+                          </div>
+                        </>
                       )}
                       <section className="flex flex-col items-center justify-center    max-sm:items-center max-sm:justify-center max-sm:mt-5 h-full xl:w-[500px] lg:w-[400px] md:w-[350px] max-sm:w-auto ">
                         {/******************* Slots section *START* *****************/}
@@ -308,7 +316,8 @@ const Screen3 = () => {
                                                       selectedLocation.value
                                                   )
                                                   .map(
-                                                    (item) => item.slots.length
+                                                    (item1) =>
+                                                      item1.slots.length
                                                   )}
                                           </div>
                                           <div className=" text-[11px] font-normal">
