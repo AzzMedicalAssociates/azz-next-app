@@ -26,5 +26,5 @@ export const store = configureStore({
     form: formReducer,
   },
 
-  devTools: true,
+  devTools: false,
 });
