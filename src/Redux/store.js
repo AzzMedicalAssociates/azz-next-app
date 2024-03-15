@@ -9,6 +9,7 @@ import selectedProviderReducer from "./selectedProviderSlice";
 import dateTimeReducer from "./dateTimeSlice";
 import formReducer from "./formSlice";
 import causesReducer from "./causesSlice";
+import selectedProviderDataReducer from "./selectedProviderDataSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,9 +21,10 @@ export const store = configureStore({
     providersId: providersIdReducer,
     combinedData: combinedDataReducer,
     selectedProvider: selectedProviderReducer,
+    selectedProviderData: selectedProviderDataReducer,
     dateTime: dateTimeReducer,
     form: formReducer,
   },
 
-  devTools: false,
+  devTools: true,
 });

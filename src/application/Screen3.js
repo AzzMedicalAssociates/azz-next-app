@@ -65,11 +65,34 @@ const Screen3 = () => {
 
   const [selectedLocation, setSelectedLocation] = useState(locationOptions[0]);
 
-  useEffect(() => {}, [selectedLocation]);
+  // useEffect(() => {}, [selectedLocation]);
 
   const handleLocation = (choice) => {
     setSelectedLocation(choice);
   };
+
+  const combinedData = useSelector((state) => state.combinedData);
+
+  const tempSlotsByLocation1 = selectedProfile[0].slotEntry.data.map((item) =>
+    item.slots_by_location
+      .flatMap((item) => item)
+      .filter((filter) => filter.location_name === selectedLocation.label)
+  );
+
+  const tempSlotsByLocation2 = tempSlotsByLocation1
+    .flatMap((item) => item)
+    .flatMap((item) => item.slots);
+
+  const dates = tempSlotsByLocation2.map((item) => item.date);
+
+  const uniqueDates = [...new Set(dates)];
+
+  const allSlotsByLocation = tempSlotsByLocation2;
+
+  console.log(selectedLocation.value);
+  // console.log(
+  //   allSlotsByLocation.filter((filter) => filter.date === "2024-03-15")
+  // );
 
   return (
     <>
@@ -108,7 +131,7 @@ const Screen3 = () => {
 
                 <h4 className="text-lg font-semibold">Provider Profile</h4>
               </div>
-              <div className="rounded w-full  min-h-[500px] max-sm:h-auto">
+              <div className="rounded w-full  ">
                 <section className="flex flex-col items-center w-full h-full  group/name">
                   <div className="flex items-center justify-around w-full py-4 flex-col">
                     <div className="flex items-start justify-start max-sm:w-full max-sm:items-center max-sm:justify-center flex-col">
@@ -178,7 +201,7 @@ const Screen3 = () => {
                   </div>
 
                   <div>
-                    <section className="flex flex-col items-center justify-center gap-5 py-5">
+                    <section className="flex flex-col items-center justify-center gap-5 py-5 ">
                       {locationOptions.length > 1 ? (
                         <div>
                           <div>Select the location:</div>
@@ -236,98 +259,74 @@ const Screen3 = () => {
                           </div>
                         </>
                       )}
-                      <section className="flex flex-col items-center justify-center    max-sm:items-center max-sm:justify-center max-sm:mt-5 h-full xl:w-[500px] lg:w-[400px] md:w-[350px] max-sm:w-auto ">
+                      <section className="flex flex-col items-center justify-center max-sm:mt-5 h-full w-full ">
                         {/******************* Slots section *START* *****************/}
 
-                        <div className="flex flex-wrap items-center justify-center gap-1 ml-0.5 max-sm:-mt-2 max-sm:items-center max-sm:justify-center max-sm:ml-0.5 ">
-                          {item.slotEntry.data.map((item1, index1) => (
-                            <div key={index1}>
-                              <div>
-                                <section className="flex flex-wrap items-center justify-center  ">
-                                  <div>
-                                    <div className="flex flex-wrap gap-1 ">
+                        <div className="w-full flex flex-col items-center justify-center ">
+                          {uniqueDates.map((item, index) => (
+                            <div
+                              key={index}
+                              className="w-full flex flex-col pl-5 pr-3 py-2 my-2 border rounded"
+                            >
+                              <div className="text-[#1E328F] font-semibold    ">
+                                {new Date(item).toLocaleDateString([], {
+                                  weekday: "long",
+                                  day: "numeric",
+                                  month: "short",
+                                })}
+                              </div>
+                              <div className="grid grid-cols-5 max-lg:grid-cols-5 max-md:grid-cols-4 max-sm:grid-cols-3 py-3 ">
+                                {allSlotsByLocation
+                                  .filter((filter) => filter.date === item)
+                                  .map((slot, index1) => (
+                                    <div key={index1}>
+                                      {/* Render slot information here */}
+
                                       <div
+                                        className={
+                                          slot.booked
+                                            ? "uppercase !px-0 rounded w-24 btn hover:cursor-not-allowed mr-2 mb-2"
+                                            : "uppercase !px-0 rounded w-24 hover:cursor-pointer btn btn-primary mr-2 mb-2"
+                                        }
                                         onClick={
-                                          item1.slots_by_location
-                                            .filter(
-                                              (filter) =>
-                                                filter.location_id ===
-                                                selectedLocation.value
-                                            )
-                                            .map((item) => item.slots.length)
-                                            .length === 0
+                                          slot.booked
                                             ? null
                                             : () => {
                                                 document
-                                                  .getElementById("my_modal_1")
+                                                  .getElementById("my_modal_2")
                                                   .showModal();
-                                                setUserSelectedDate(item1.date);
+                                                setUserSelectedTime(
+                                                  new Date(
+                                                    slot.start_time
+                                                  ).toLocaleTimeString(
+                                                    "en-US",
+                                                    {
+                                                      hour: "numeric",
+                                                      minute: "numeric",
+                                                      hour12: true,
+                                                    }
+                                                  )
+                                                );
+                                                setUserSelectedDate(slot.date);
                                               }
                                         }
-                                        className={
-                                          item1.slots_by_location
-                                            .filter(
-                                              (filter) =>
-                                                filter.location_id ===
-                                                selectedLocation.value
-                                            )
-                                            .map((item) => item.slots.length)
-                                            .length === 0
-                                            ? "btn  hover:cursor-not-allowed mr-0.5 mb-0.5 !w-[43px] !h-[73px] p-0 rounded hover:opacity-80 shadow-xl "
-                                            : "btn btn-primary mr-0.5 mb-0.5 !w-[43px] !h-[73px] p-0 rounded hover:opacity-80 hover:cursor-pointer shadow-xl"
-                                        }
                                       >
-                                        <div className="flex flex-col items-start">
-                                          <div className="font-semibold text-[12px]">
-                                            {new Date(
-                                              item1.date
-                                            ).toLocaleDateString("en-US", {
-                                              weekday: "short",
-                                            })}
-                                          </div>
-                                          <div className=" text-[11px] font-normal">
-                                            {new Date(
-                                              item1.date
-                                            ).toLocaleDateString("en-US", {
-                                              month: "short",
-                                            })}{" "}
-                                            {new Date(
-                                              item1.date
-                                            ).toLocaleDateString("en-US", {
-                                              day: "numeric",
-                                            })}
-                                          </div>
-                                        </div>
-                                        <div className="flex flex-col items-start">
-                                          <div className="font-semibold text-[12px]">
-                                            {item1.slots_by_location
-                                              .filter(
-                                                (filter) =>
-                                                  filter.location_id ===
-                                                  selectedLocation.value
-                                              )
-                                              .map((item) => item.slots.length)
-                                              .length === 0
-                                              ? "0"
-                                              : item1.slots_by_location
-                                                  .filter(
-                                                    (filter) =>
-                                                      filter.location_id ===
-                                                      selectedLocation.value
-                                                  )
-                                                  .map(
-                                                    (item1) =>
-                                                      item1.slots.length
-                                                  )}
-                                          </div>
-                                          <div className=" text-[11px] font-normal">
-                                            {"appts"}
-                                          </div>
-                                        </div>
+                                        {console.log(slot)}
+                                        {slot &&
+                                          new Date(
+                                            slot.start_time
+                                          ).toLocaleTimeString([], {
+                                            hour: "numeric",
+                                            minute: "numeric",
+                                            hour12: true,
+                                          })}
                                       </div>
-                                      <dialog id="my_modal_1" className="modal">
-                                        <div className="modal-box">
-                                          <h3 className="text-lg font-bold">
+                                      <dialog
+                                        id="my_modal_2"
+                                        className="z-auto text-black modal"
+                                      >
+                                        <div className="relative flex items-center justify-center w-1/2 overflow-hidden modal-box h-[150px]">
+                                          <h4 className="absolute font-bold top-3 text-md">
                                             {new Date(
                                               userSelectedDate
                                             ).toLocaleDateString("en-US", {
@@ -343,173 +342,30 @@ const Screen3 = () => {
                                             ).toLocaleDateString("en-US", {
                                               day: "numeric",
                                             })}
-                                          </h3>
-                                          <div className="flex items-center justify-center gap-5 py-2 mt-2 text-white ">
-                                            <div className="flex flex-wrap items-start justify-center gap-1">
-                                              <section>
-                                                {item.slotEntry.data
-                                                  .filter(
-                                                    (filter) =>
-                                                      filter.date ===
-                                                      userSelectedDate
-                                                  )
-                                                  .map((item2, index2) => (
-                                                    <div key={index2}>
-                                                      {item2.slots_by_location
-                                                        .filter(
-                                                          (filter) =>
-                                                            filter.location_id ===
-                                                            selectedLocation.value
-                                                        )
-                                                        .map(
-                                                          (item3, index3) => (
-                                                            <div
-                                                              className="flex flex-wrap items-center justify-center gap-1"
-                                                              key={index3}
-                                                            >
-                                                              {item3.slots.map(
-                                                                (
-                                                                  item4,
-                                                                  index4
-                                                                ) => (
-                                                                  <div
-                                                                    key={index4}
-                                                                    onClick={
-                                                                      item4.booked
-                                                                        ? null
-                                                                        : () => {
-                                                                            document
-                                                                              .getElementById(
-                                                                                "my_modal_2"
-                                                                              )
-                                                                              .showModal();
-                                                                            setUserSelectedTime(
-                                                                              new Date(
-                                                                                item4.start_time
-                                                                              ).toLocaleTimeString(
-                                                                                "en-US",
-                                                                                {
-                                                                                  hour: "numeric",
-                                                                                  minute:
-                                                                                    "numeric",
-                                                                                  hour12: true,
-                                                                                }
-                                                                              )
-                                                                            );
-                                                                          }
-                                                                    }
-                                                                    className={
-                                                                      item4.booked
-                                                                        ? "!px-0 rounded w-24 btn hover:cursor-not-allowed mr-1 mb-1"
-                                                                        : "!px-0 rounded w-24 hover:cursor-pointer btn btn-primary mr-1 mb-1"
-                                                                    }
-                                                                  >
-                                                                    {new Date(
-                                                                      item4.start_time
-                                                                    ).toLocaleTimeString(
-                                                                      "en-US",
-                                                                      {
-                                                                        hour: "numeric",
-                                                                        minute:
-                                                                          "numeric",
-                                                                        hour12: true,
-                                                                      }
-                                                                    )}
-                                                                  </div>
-                                                                )
-                                                              )}
-                                                              <dialog
-                                                                id="my_modal_2"
-                                                                className="z-auto text-black modal"
-                                                              >
-                                                                <div className="relative flex items-center justify-center w-1/2 overflow-hidden modal-box h-[150px]">
-                                                                  <h4 className="absolute font-bold top-3 text-md">
-                                                                    {new Date(
-                                                                      userSelectedDate
-                                                                    ).toLocaleDateString(
-                                                                      "en-US",
-                                                                      {
-                                                                        weekday:
-                                                                          "long",
-                                                                      }
-                                                                    )}{" "}
-                                                                    {new Date(
-                                                                      userSelectedDate
-                                                                    ).toLocaleDateString(
-                                                                      "en-US",
-                                                                      {
-                                                                        month:
-                                                                          "short",
-                                                                      }
-                                                                    )}{" "}
-                                                                    {new Date(
-                                                                      userSelectedDate
-                                                                    ).toLocaleDateString(
-                                                                      "en-US",
-                                                                      {
-                                                                        day: "numeric",
-                                                                      }
-                                                                    )}
-                                                                    {" at "}
-                                                                    {
-                                                                      userSelectedTime
-                                                                    }
-                                                                  </h4>
-                                                                  <button
-                                                                    className="mt-5 btn px-5 btn-primary "
-                                                                    onClick={() => {
-                                                                      document
-                                                                        .getElementById(
-                                                                          "my_modal_1"
-                                                                        )
-                                                                        .close();
-                                                                      document
-                                                                        .getElementById(
-                                                                          "my_modal_2"
-                                                                        )
-                                                                        .close();
-                                                                      dispatch(
-                                                                        addDateTime(
-                                                                          {
-                                                                            date: userSelectedDate,
-                                                                            time: userSelectedTime,
-                                                                            location:
-                                                                              selectedLocation,
-                                                                          }
-                                                                        )
-                                                                      );
-                                                                      dispatch(
-                                                                        addScreen(
-                                                                          4
-                                                                        )
-                                                                      );
-                                                                    }}
-                                                                  >
-                                                                    Confirm
-                                                                  </button>
-                                                                  <div className="modal-action">
-                                                                    <form
-                                                                      method="dialog"
-                                                                      className=""
-                                                                    >
-                                                                      <button className="absolute btn-sm p-1 text-[12px] btn btn-primary bottom-2 right-2 ">
-                                                                        Close
-                                                                      </button>
-                                                                    </form>
-                                                                  </div>
-                                                                </div>
-                                                              </dialog>
-                                                            </div>
-                                                          )
-                                                        )}
-                                                    </div>
-                                                  ))}
-                                              </section>
-                                            </div>
-                                          </div>
+                                            {" at "}
+                                            {userSelectedTime}
+                                          </h4>
+                                          <button
+                                            className="mt-5 btn px-5 btn-primary "
+                                            onClick={() => {
+                                              document
+                                                .getElementById("my_modal_2")
+                                                .close();
+                                              dispatch(
+                                                addDateTime({
+                                                  date: userSelectedDate,
+                                                  time: userSelectedTime,
+                                                  location: selectedLocation,
+                                                })
+                                              );
+                                              dispatch(addScreen(4));
+                                            }}
+                                          >
+                                            Confirm
+                                          </button>
                                           <div className="modal-action">
-                                            <form method="dialog">
-                                              <button className="btn-sm btn btn-primary ">
+                                            <form method="dialog" className="">
+                                              <button className="absolute btn-sm p-1 text-[12px] btn btn-primary bottom-2 right-2 ">
                                                 Close
                                               </button>
                                             </form>
@@ -517,8 +373,7 @@ const Screen3 = () => {
                                         </div>
                                       </dialog>
                                     </div>
-                                  </div>
-                                </section>
+                                  ))}
                               </div>
                             </div>
                           ))}
