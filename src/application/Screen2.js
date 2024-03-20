@@ -297,11 +297,48 @@ const Screen2 = () => {
                                         >
                                           <div className="flex flex-col items-start">
                                             <div className="font-semibold text-[12px]">
-                                              {new Date(
+                                              {(new Date(
                                                 item1.date
-                                              ).toLocaleDateString("en-US", {
+                                              ).toLocaleDateString([], {
                                                 weekday: "short",
-                                              })}
+                                              }) === "Mon" &&
+                                                "Tue") ||
+                                                (new Date(
+                                                  item1.date
+                                                ).toLocaleDateString([], {
+                                                  weekday: "short",
+                                                }) === "Tue" &&
+                                                  "Wed") ||
+                                                (new Date(
+                                                  item1.date
+                                                ).toLocaleDateString([], {
+                                                  weekday: "short",
+                                                }) === "Wed" &&
+                                                  "Thu") ||
+                                                (new Date(
+                                                  item1.date
+                                                ).toLocaleDateString([], {
+                                                  weekday: "short",
+                                                }) === "Thu" &&
+                                                  "Fri") ||
+                                                (new Date(
+                                                  item1.date
+                                                ).toLocaleDateString([], {
+                                                  weekday: "short",
+                                                }) === "Fri" &&
+                                                  "Sat") ||
+                                                (new Date(
+                                                  item1.date
+                                                ).toLocaleDateString([], {
+                                                  weekday: "short",
+                                                }) === "Sat" &&
+                                                  "Sun") ||
+                                                (new Date(
+                                                  item1.date
+                                                ).toLocaleDateString([], {
+                                                  weekday: "short",
+                                                }) === "Sun" &&
+                                                  "Mon")}{" "}
                                             </div>
                                             <div className=" text-[11px] font-normal">
                                               {new Date(
@@ -309,11 +346,8 @@ const Screen2 = () => {
                                               ).toLocaleDateString("en-US", {
                                                 month: "short",
                                               })}{" "}
-                                              {new Date(
-                                                item1.date
-                                              ).toLocaleDateString("en-US", {
-                                                day: "numeric",
-                                              })}
+                                              {new Date(item1.date).getDate() +
+                                                1}{" "}
                                             </div>
                                           </div>
                                           <div className="flex flex-col items-start">

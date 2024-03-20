@@ -89,7 +89,7 @@ const Screen3 = () => {
 
   const allSlotsByLocation = tempSlotsByLocation2;
 
-  console.log(selectedLocation.value);
+  //console.log(selectedLocation.value);
   // console.log(
   //   allSlotsByLocation.filter((filter) => filter.date === "2024-03-15")
   // );
@@ -269,9 +269,36 @@ const Screen3 = () => {
                               className="w-full flex flex-col pl-5 pr-3 py-2 my-2 border rounded"
                             >
                               <div className="text-[#1E328F] font-semibold    ">
-                                {new Date(item).toLocaleDateString([], {
+                                {(new Date(item).toLocaleDateString([], {
                                   weekday: "long",
-                                  day: "numeric",
+                                }) === "Monday" &&
+                                  "Tuesday") ||
+                                  (new Date(item).toLocaleDateString([], {
+                                    weekday: "long",
+                                  }) === "Tuesday" &&
+                                    "Wednesday") ||
+                                  (new Date(item).toLocaleDateString([], {
+                                    weekday: "long",
+                                  }) === "Wednesday" &&
+                                    "Thursday") ||
+                                  (new Date(item).toLocaleDateString([], {
+                                    weekday: "long",
+                                  }) === "Thursday" &&
+                                    "Friday") ||
+                                  (new Date(item).toLocaleDateString([], {
+                                    weekday: "long",
+                                  }) === "Friday" &&
+                                    "Saturday") ||
+                                  (new Date(item).toLocaleDateString([], {
+                                    weekday: "long",
+                                  }) === "Saturday" &&
+                                    "Sunday") ||
+                                  (new Date(item).toLocaleDateString([], {
+                                    weekday: "long",
+                                  }) === "Sunday" &&
+                                    "Monday")}{" "}
+                                {new Date(item).getDate() + 1}{" "}
+                                {new Date(item).toLocaleDateString([], {
                                   month: "short",
                                 })}
                               </div>
@@ -307,11 +334,28 @@ const Screen3 = () => {
                                                     }
                                                   )
                                                 );
-                                                setUserSelectedDate(slot.date);
+                                                // setUserSelectedDate(slot.date);
+                                                setUserSelectedDate(
+                                                  new Date(
+                                                    slot.date
+                                                  ).toLocaleDateString([], {
+                                                    year: "numeric",
+                                                  }) +
+                                                    "-" +
+                                                    new Date(
+                                                      slot.date
+                                                    ).toLocaleDateString([], {
+                                                      month: "2-digit",
+                                                    }) +
+                                                    "-" +
+                                                    (new Date(
+                                                      slot.date
+                                                    ).getDate() +
+                                                      1)
+                                                );
                                               }
                                         }
                                       >
-                                        {console.log(slot)}
                                         {slot &&
                                           new Date(
                                             slot.start_time
@@ -327,21 +371,70 @@ const Screen3 = () => {
                                       >
                                         <div className="relative flex items-center justify-center w-1/2 overflow-hidden modal-box h-[150px]">
                                           <h4 className="absolute font-bold top-3 text-md">
-                                            {new Date(
-                                              userSelectedDate
-                                            ).toLocaleDateString("en-US", {
-                                              weekday: "long",
-                                            })}{" "}
-                                            {new Date(
-                                              userSelectedDate
-                                            ).toLocaleDateString("en-US", {
-                                              month: "short",
-                                            })}{" "}
-                                            {new Date(
-                                              userSelectedDate
-                                            ).toLocaleDateString("en-US", {
-                                              day: "numeric",
+                                            {/* {new Date(
+                                              slot.date
+                                            ).toLocaleDateString([], {
+                                              year: "numeric",
                                             })}
+                                            {"-"}
+                                            {new Date(
+                                              slot.date
+                                            ).toLocaleDateString([], {
+                                              month: "2-digit",
+                                            })}
+                                            {"-"}
+                                            {new Date(slot.date).getDate() +
+                                              1} */}
+                                            {(new Date(item).toLocaleDateString(
+                                              [],
+                                              {
+                                                weekday: "long",
+                                              }
+                                            ) === "Monday" &&
+                                              "Tuesday") ||
+                                              (new Date(
+                                                item
+                                              ).toLocaleDateString([], {
+                                                weekday: "long",
+                                              }) === "Tuesday" &&
+                                                "Wednesday") ||
+                                              (new Date(
+                                                item
+                                              ).toLocaleDateString([], {
+                                                weekday: "long",
+                                              }) === "Wednesday" &&
+                                                "Thursday") ||
+                                              (new Date(
+                                                item
+                                              ).toLocaleDateString([], {
+                                                weekday: "long",
+                                              }) === "Thursday" &&
+                                                "Friday") ||
+                                              (new Date(
+                                                item
+                                              ).toLocaleDateString([], {
+                                                weekday: "long",
+                                              }) === "Friday" &&
+                                                "Saturday") ||
+                                              (new Date(
+                                                item
+                                              ).toLocaleDateString([], {
+                                                weekday: "long",
+                                              }) === "Saturday" &&
+                                                "Sunday") ||
+                                              (new Date(
+                                                item
+                                              ).toLocaleDateString([], {
+                                                weekday: "long",
+                                              }) === "Sunday" &&
+                                                "Monday")}{" "}
+                                            {new Date(item).toLocaleDateString(
+                                              [],
+                                              {
+                                                month: "short",
+                                              }
+                                            )}{" "}
+                                            {new Date(item).getDate() + 1}
                                             {" at "}
                                             {userSelectedTime}
                                           </h4>
