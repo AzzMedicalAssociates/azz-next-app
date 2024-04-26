@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import screenReducer from "./screenSlice";
+import loginReducer from "./loginSlice";
 import patientReducer from "./patientSlice";
 import providersIdReducer from "./providersIdSlice";
 import combinedDataReducer from "./combinedDataSlice";
@@ -14,6 +15,7 @@ import selectedProviderDataReducer from "./selectedProviderDataSlice";
 export const store = configureStore({
   reducer: {
     screen: screenReducer,
+    login: loginReducer,
     causes: causesReducer,
     patient: patientReducer,
     providersData: providersDataReducer,

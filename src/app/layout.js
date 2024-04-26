@@ -106,6 +106,20 @@ export default function RootLayout({ children }) {
                       >
                         Services
                       </Link>
+                      <Link
+                        href={"/provider-panel"}
+                        target="_self"
+                        className="hover:bg-[#1E328F]/90 hover:text-white w-full py-5 text-center  "
+                      >
+                        Provider Panel
+                      </Link>
+                      <Link
+                        href={"/assistant-panel"}
+                        target="_self"
+                        className="hover:bg-[#1E328F]/90 hover:text-white w-full py-5 text-center  "
+                      >
+                        Assistant Panel
+                      </Link>
                       {/* <Link
                       href={"/resources"}
                       className="hover:bg-[#1E328F]/90 hover:text-white w-full py-5 text-center "
