@@ -139,6 +139,7 @@ export default function RootLayout({ children }) {
             </div>
           </nav>
           {children}
+
           <Footer />
         </body>
       </StoreProvider>

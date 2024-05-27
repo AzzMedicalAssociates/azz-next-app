@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-
 import Home from "@/application/Home";
 import Screen2 from "@/application/Screen2";
 import Screen3 from "@/application/Screen3";
@@ -19,7 +18,7 @@ const Main = () => {
         </div>
       )}
       {currentScreen === 2 && (
-        <div className="flex items-center justify-center max-w-[1200px]">
+        <div className="flex items-center justify-center h-fit ">
           <Screen2 />
         </div>
       )}

@@ -19,6 +19,8 @@ import { removeProvidersData } from "@/Redux/providersDataSlice";
 import { removeSlotsData } from "@/Redux/slotsDataSlice";
 import { removeCombinedData } from "@/Redux/combinedDataSlice";
 import { useDispatch } from "react-redux";
+import { removeSelectedProvider } from "@/Redux/selectedProviderSlice";
+import { removeMap } from "@/Redux/mapSlice";
 
 const Navigation = () => {
   const dispatch = useDispatch();
@@ -36,6 +38,8 @@ const Navigation = () => {
                   dispatch(removeProvidersData());
                   dispatch(removeSlotsData());
                   dispatch(removeCombinedData());
+                  dispatch(removeSelectedProvider());
+                  dispatch(removeMap());
                 }}
                 className={navigationMenuTriggerStyle()}
               >

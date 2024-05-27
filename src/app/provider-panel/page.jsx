@@ -288,9 +288,9 @@ const page = () => {
                   <div className="text-[#1E328F] w-full text-center font-semibold  py-2">
                     Dictations By {provider}
                   </div>
-                  <div className="flex flex-col items-start justify-between w-full h-[67vh] overflow-y-scroll gap-0">
+                  <div className="flex flex-col items-start justify-start w-full h-[67vh] overflow-y-scroll gap-0">
                     {filteredDictationsByProvider.map((item) => (
-                      <div className="flex flex-col items-start justify-between rounded border border-gray-400  w-full py-3 pl-2 gap-1 mb-2 bg-white/70 glass">
+                      <div className="flex flex-col items-start justify-between rounded border border-gray-400  w-full py-3 pl-2 gap-1 mb-2 bg-white/70 glass shadow-md">
                         <div className="text-sm line-clamp-1">
                           <span className=" text-[#1E328F] font-semibold">
                             Date:{" "}

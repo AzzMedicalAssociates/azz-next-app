@@ -127,3 +127,28 @@ body
   > img:nth-child(4) {
   margin-right: 5px;
 }
+
+.myclass {
+  text-shadow: 0.5px 0.5px 0 white, -0.5px -0.5px 0 white, 0.5px -0.5px 0 white,
+    -0.5px 0.5px white;
+}
+.myclass1 {
+  text-shadow: 1.5px 1.5px 0 #1e328f, -1.5px -1.5px 0 #1e328f,
+    1.5px -1.5px 0 #1e328f, -1.5px 1.5px #1e328f;
+}
+
+/* GOOGLE MAP */
+
+.gm-style-iw {
+  overflow: hidden !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.gm-style-iw-c,
+.gm-style-iw-d {
+  overflow: hidden !important;
+}
+
+.gm-style-iw-tc::after {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}

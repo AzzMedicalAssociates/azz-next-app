@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Select, { components } from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { removeSelectedProvider } from "@/Redux/selectedProviderSlice";
@@ -73,11 +73,14 @@ const Screen3 = () => {
 
   const combinedData = useSelector((state) => state.combinedData);
 
-  const tempSlotsByLocation1 = selectedProfile[0].slotEntry.data.map((item) =>
-    item.slots_by_location
-      .flatMap((item) => item)
-      .filter((filter) => filter.location_name === selectedLocation.label)
-  );
+  const tempSlotsByLocation1 = selectedProfile[0].slotEntry.data
+    .map((i) => i)
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .map((item) =>
+      item.slots_by_location
+        .flatMap((item) => item)
+        .filter((filter) => filter.location_name === selectedLocation.label)
+    );
 
   const tempSlotsByLocation2 = tempSlotsByLocation1
     .flatMap((item) => item)
@@ -251,8 +254,8 @@ const Screen3 = () => {
                         </div>
                       ) : (
                         <>
-                          <div>
-                            Location:{" "}
+                          <div className="border-2 bg-[#1E328F]/30 glass border-[#1E328F] rounded py-3 px-5 flex items-center justify-center gap-1">
+                            <span className="font-semibold">Location:</span>
                             <span className=" font-medium">
                               {locationOptions[0].label}
                             </span>
@@ -297,10 +300,45 @@ const Screen3 = () => {
                                     weekday: "long",
                                   }) === "Sunday" &&
                                     "Monday")}{" "}
-                                {new Date(item).getDate() + 1}{" "}
-                                {new Date(item).toLocaleDateString([], {
-                                  month: "short",
-                                })}
+                                {(function getNextDay(date) {
+                                  let currentDate = new Date(date);
+                                  let nextDay = new Date(currentDate);
+                                  nextDay.setDate(currentDate.getDate() + 1);
+
+                                  if (
+                                    nextDay.getMonth() !==
+                                    currentDate.getMonth()
+                                  ) {
+                                    nextDay = new Date(
+                                      nextDay.getFullYear(),
+                                      nextDay.getMonth(),
+                                      1
+                                    );
+                                  }
+
+                                  return nextDay.getDate();
+                                })(item)}{" "}
+                                {(function getNextDay(date) {
+                                  let currentDate = new Date(date);
+                                  let nextDay = new Date(currentDate);
+                                  nextDay.setDate(currentDate.getDate() + 1);
+
+                                  if (
+                                    nextDay.getMonth() !==
+                                    currentDate.getMonth()
+                                  ) {
+                                    nextDay = new Date(
+                                      nextDay.getFullYear(),
+                                      nextDay.getMonth(),
+                                      1
+                                    );
+                                  }
+
+                                  // Return the month abbreviation in "short" format
+                                  return nextDay.toLocaleString("default", {
+                                    month: "short",
+                                  });
+                                })(item)}
                               </div>
                               <div className="grid grid-cols-5 max-lg:grid-cols-5 max-md:grid-cols-4 max-sm:grid-cols-3 py-3 ">
                                 {allSlotsByLocation
@@ -319,9 +357,9 @@ const Screen3 = () => {
                                           slot.booked
                                             ? null
                                             : () => {
-                                                document
-                                                  .getElementById("my_modal_2")
-                                                  .showModal();
+                                                // document
+                                                //   .getElementById("my_modal_2")
+                                                //   .showModal();
                                                 setUserSelectedTime(
                                                   new Date(
                                                     slot.start_time
@@ -336,23 +374,96 @@ const Screen3 = () => {
                                                 );
                                                 // setUserSelectedDate(slot.date);
                                                 setUserSelectedDate(
-                                                  new Date(
-                                                    slot.date
-                                                  ).toLocaleDateString([], {
-                                                    year: "numeric",
-                                                  }) +
-                                                    "-" +
-                                                    new Date(
-                                                      slot.date
-                                                    ).toLocaleDateString([], {
-                                                      month: "2-digit",
-                                                    }) +
-                                                    "-" +
-                                                    (new Date(
-                                                      slot.date
-                                                    ).getDate() +
-                                                      1)
+                                                  ((date) => {
+                                                    let currentDate = new Date(
+                                                      date
+                                                    );
+                                                    let nextDay = new Date(
+                                                      currentDate
+                                                    );
+                                                    nextDay.setDate(
+                                                      currentDate.getDate() + 1
+                                                    );
+
+                                                    if (
+                                                      nextDay.getMonth() !==
+                                                      currentDate.getMonth()
+                                                    ) {
+                                                      nextDay = new Date(
+                                                        nextDay.getFullYear(),
+                                                        nextDay.getMonth(),
+                                                        1
+                                                      );
+                                                    }
+
+                                                    return (
+                                                      nextDay.getFullYear() +
+                                                      "-" +
+                                                      (
+                                                        "0" +
+                                                        (nextDay.getMonth() + 1)
+                                                      ).slice(-2) +
+                                                      "-" +
+                                                      (
+                                                        "0" + nextDay.getDate()
+                                                      ).slice(-2)
+                                                    );
+                                                  })(slot.date)
                                                 );
+
+                                                dispatch(
+                                                  addDateTime({
+                                                    date: ((date) => {
+                                                      let currentDate =
+                                                        new Date(date);
+                                                      let nextDay = new Date(
+                                                        currentDate
+                                                      );
+                                                      nextDay.setDate(
+                                                        currentDate.getDate() +
+                                                          1
+                                                      );
+
+                                                      if (
+                                                        nextDay.getMonth() !==
+                                                        currentDate.getMonth()
+                                                      ) {
+                                                        nextDay = new Date(
+                                                          nextDay.getFullYear(),
+                                                          nextDay.getMonth(),
+                                                          1
+                                                        );
+                                                      }
+
+                                                      return (
+                                                        nextDay.getFullYear() +
+                                                        "-" +
+                                                        (
+                                                          "0" +
+                                                          (nextDay.getMonth() +
+                                                            1)
+                                                        ).slice(-2) +
+                                                        "-" +
+                                                        (
+                                                          "0" +
+                                                          nextDay.getDate()
+                                                        ).slice(-2)
+                                                      );
+                                                    })(slot.date),
+                                                    time: new Date(
+                                                      slot.start_time
+                                                    ).toLocaleTimeString(
+                                                      "en-US",
+                                                      {
+                                                        hour: "numeric",
+                                                        minute: "numeric",
+                                                        hour12: true,
+                                                      }
+                                                    ),
+                                                    location: selectedLocation,
+                                                  })
+                                                );
+                                                dispatch(addScreen(4));
                                               }
                                         }
                                       >

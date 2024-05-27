@@ -11,6 +11,7 @@ import dateTimeReducer from "./dateTimeSlice";
 import formReducer from "./formSlice";
 import causesReducer from "./causesSlice";
 import selectedProviderDataReducer from "./selectedProviderDataSlice";
+import MapReducer from "./mapSlice";
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     selectedProviderData: selectedProviderDataReducer,
     dateTime: dateTimeReducer,
     form: formReducer,
+    map: MapReducer,
   },
 
   devTools: false,

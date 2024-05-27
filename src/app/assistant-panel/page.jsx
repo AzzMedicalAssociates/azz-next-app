@@ -109,7 +109,6 @@ const page = () => {
                   setOptions(convertedData);
 
                   const handleSubmit = () => {
-                    // setDatePanel(!datePanel);
                     const filtered =
                       response.data.data
                         .map((item) => item)
@@ -125,6 +124,7 @@ const page = () => {
                               filterDate <= formattedEndDate)
                           );
                         }) || [];
+
                     setFilteredData(filtered);
                   };
 
@@ -415,37 +415,40 @@ const page = () => {
                       <div className="bg-gray-200 w-full ">
                         <ul className="menu bg-base-200 w-[330px] rounded-box flex flex-col items-start justify-start h-[45vh] border overflow-y-scroll ">
                           <li className="flex flex-col items-start justify-start">
-                            {filteredData.map((item) => (
-                              <div
-                                key={item.id}
-                                className={
-                                  selectedNote && selectedNote.id === item.id
-                                    ? "text-[#1E328F] font-semibold bg-black/10"
-                                    : ""
-                                }
-                                onClick={() => {
-                                  setSelectedNote(null);
-                                  setSelectedNote(item);
-                                }}
-                              >
-                                <div className="flex flex-col items-start justify-start w-full ">
-                                  <div className="flex items-start justify-start gap-1">
-                                    <div className="text-black text-nowrap">
-                                      Date-Time:
+                            {filteredData
+                              .map((i) => i)
+                              .sort((a, b) => b.id - a.id)
+                              .map((item) => (
+                                <div
+                                  key={item.id}
+                                  className={
+                                    selectedNote && selectedNote.id === item.id
+                                      ? "text-[#1E328F] font-semibold bg-black/10"
+                                      : ""
+                                  }
+                                  onClick={() => {
+                                    setSelectedNote(null);
+                                    setSelectedNote(item);
+                                  }}
+                                >
+                                  <div className="flex flex-col items-start justify-start w-full ">
+                                    <div className="flex items-start justify-start gap-1">
+                                      <div className="text-black text-nowrap">
+                                        Date-Time:
+                                      </div>
+                                      <div className=" text-nowrap line-clamp-1">
+                                        {formatDate(item.created_at)}
+                                      </div>
                                     </div>
-                                    <div className=" text-nowrap line-clamp-1">
-                                      {formatDate(item.created_at)}
-                                    </div>
-                                  </div>
-                                  <div className="flex items-start justify-start gap-1">
-                                    <div className="text-black">Patient:</div>
-                                    <div className=" text-nowrap line-clamp-1">
-                                      {item.name_of_patient}
+                                    <div className="flex items-start justify-start gap-1">
+                                      <div className="text-black">Patient:</div>
+                                      <div className=" text-nowrap line-clamp-1">
+                                        {item.name_of_patient}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
                           </li>
                         </ul>
                       </div>
